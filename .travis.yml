@@ -4,7 +4,7 @@ node_js:
   - "node"
 install: npm install
 script:
-  - gulp
+  - npx gulp
   - sh ./scripts/public.sh
 cache:
   directories:

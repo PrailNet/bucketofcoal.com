@@ -1,0 +1,21 @@
+sudo: false
+language: node_js
+node_js:
+  - "node"
+install: npm install
+script:
+  - gulp
+  - sh ./scripts/public.sh
+cache:
+  directories:
+    - node_modules
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  local_dir: public
+  target_branch: gh-pages
+  github_token: $GITHUB_TOKEN
+  repo: PrailNet/bucketofcoal.com
+  on:
+    branch: master

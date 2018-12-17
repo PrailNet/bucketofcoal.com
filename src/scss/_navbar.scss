@@ -13,7 +13,7 @@
   .navbar-brand {
     color: $black;
     font-weight: 700;
-    padding: .9rem 0;
+    padding: 0.9rem 0;
   }
   .navbar-nav {
     .nav-item {
@@ -36,15 +36,15 @@
     background-color: transparent;
     transition: background-color 0.3s ease-in-out;
     .navbar-brand {
-      padding: .5rem 0;
-      color: fade-out($white, .5);
+      padding: 0.5rem 0;
+      color: fade-out($white, 0.5);
     }
     .nav-link {
       transition: none;
       padding: 2rem 1.5rem;
-      color: fade-out($white, .5);
+      color: fade-out($white, 0.5);
       &:hover {
-        color: fade-out($white, .25);
+        color: fade-out($white, 0.25);
       }
       &:active {
         color: white;

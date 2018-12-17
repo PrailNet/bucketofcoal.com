@@ -4,7 +4,7 @@ node_js:
   - "8"
 install: npm install
 script:
-  - npx gulp
+  - npm run build
 cache:
   directories:
     - node_modules
@@ -12,7 +12,7 @@ cache:
 deploy:
   provider: pages
   skip_cleanup: true
-  local_dir: public
+  local_dir: dist
   target_branch: gh-pages
   github_token: $GITHUB_TOKEN
   repo: PrailNet/bucketofcoal.com

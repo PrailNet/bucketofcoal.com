@@ -1,7 +1,4 @@
 node_modules
 .sass-cache
 bower_components
-vendor/
-js/*.min.js
-css/
 public

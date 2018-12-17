@@ -3,16 +3,24 @@
   "name": "startbootstrap-grayscale",
   "version": "5.0.2",
   "description": "A grayscale one page HTML theme for Bootstrap.",
-  "keywords": ["css", "sass", "html", "responsive", "theme", "template"],
+  "keywords": [
+    "css",
+    "sass",
+    "html",
+    "responsive",
+    "theme",
+    "template"
+  ],
   "homepage": "https://startbootstrap.com/template-overviews/grayscale",
   "bugs": {
-    "url":
-      "https://github.com/BlackrockDigital/startbootstrap-grayscale/issues",
+    "url": "https://github.com/BlackrockDigital/startbootstrap-grayscale/issues",
     "email": "feedback@startbootstrap.com"
   },
   "license": "MIT",
   "author": "Start Bootstrap",
-  "contributors": ["David Miller (http://davidmiller.io/)"],
+  "contributors": [
+    "David Miller (http://davidmiller.io/)"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/BlackrockDigital/startbootstrap-grayscale.git"
@@ -27,8 +35,10 @@
     "browser-sync": "2.24.7",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "6.0.0",
+    "gulp-changed": "^3.2.0",
     "gulp-clean-css": "3.10.0",
     "gulp-header": "2.0.5",
+    "gulp-imagemin": "^5.0.3",
     "gulp-rename": "1.4.0",
     "gulp-sass": "4.0.1",
     "gulp-uglify": "3.0.1"

@@ -5,6 +5,9 @@ const cleanCSS = require("gulp-clean-css");
 const rename = require("gulp-rename");
 const uglify = require("gulp-uglify");
 const autoprefixer = require("gulp-autoprefixer");
+const imagemin = require("gulp-imagemin");
+const changed = require("gulp-changed");
+
 const pkg = require("./package.json");
 const browserSync = require("browser-sync").create();
 
@@ -18,6 +21,8 @@ const banner = [
   " */\n",
   "\n"
 ].join("");
+const dist = "./public";
+const src = "./src";
 
 // Copy third party libraries from /node_modules into /vendor
 gulp.task("vendor", () => {
@@ -28,10 +33,12 @@ gulp.task("vendor", () => {
       "!./node_modules/bootstrap/dist/css/bootstrap-grid*",
       "!./node_modules/bootstrap/dist/css/bootstrap-reboot*"
     ])
-    .pipe(gulp.dest("./vendor/bootstrap"));
+    .pipe(gulp.dest(`${dist}/vendor/bootstrap`));
 
   // Font Awesome 5
-  gulp.src(["./node_modules/@fortawesome/**/*"]).pipe(gulp.dest("./vendor"));
+  gulp
+    .src(["./node_modules/@fortawesome/**/*"])
+    .pipe(gulp.dest(`${dist}/vendor`));
 
   // jQuery
   gulp
@@ -39,18 +46,18 @@ gulp.task("vendor", () => {
       "./node_modules/jquery/dist/*",
       "!./node_modules/jquery/dist/core.js"
     ])
-    .pipe(gulp.dest("./vendor/jquery"));
+    .pipe(gulp.dest(`${dist}/vendor/jquery`));
 
   // jQuery Easing
   gulp
     .src(["./node_modules/jquery.easing/*.js"])
-    .pipe(gulp.dest("./vendor/jquery-easing"));
+    .pipe(gulp.dest(`${dist}/vendor/jquery-easing`));
 });
 
 // Compile SCSS
 gulp.task("css:compile", () => {
   return gulp
-    .src("./scss/**/*.scss")
+    .src(`${src}/scss/**/*.scss`)
     .pipe(
       sass
         .sync({
@@ -69,20 +76,20 @@ gulp.task("css:compile", () => {
         pkg: pkg
       })
     )
-    .pipe(gulp.dest("./css"));
+    .pipe(gulp.dest(`${dist}/css`));
 });
 
 // Minify CSS
 gulp.task("css:minify", ["css:compile"], () => {
   return gulp
-    .src(["./css/*.css", "!./css/*.min.css"])
+    .src([`${dist}/css/*.css`, `!${dist}/css/*.min.css`])
     .pipe(cleanCSS())
     .pipe(
       rename({
         suffix: ".min"
       })
     )
-    .pipe(gulp.dest("./css"))
+    .pipe(gulp.dest(`${dist}/css`))
     .pipe(browserSync.stream());
 });
 
@@ -92,7 +99,7 @@ gulp.task("css", ["css:compile", "css:minify"]);
 // Minify JavaScript
 gulp.task("js:minify", () => {
   return gulp
-    .src(["./js/*.js", "!./js/*.min.js"])
+    .src([`${src}/js/*.js`])
     .pipe(uglify())
     .pipe(
       rename({
@@ -104,28 +111,47 @@ gulp.task("js:minify", () => {
         pkg: pkg
       })
     )
-    .pipe(gulp.dest("./js"))
+    .pipe(gulp.dest(`${dist}/js`))
     .pipe(browserSync.stream());
 });
 
 // JS
 gulp.task("js", ["js:minify"]);
 
+// IMG
+gulp.task("img", () =>
+  gulp
+    .src(`${src}/img/*`)
+    .pipe(changed(`${dist}/img`))
+    .pipe(imagemin())
+    .pipe(gulp.dest(`${dist}/img`))
+    .pipe(browserSync.stream())
+);
+
+// Static
+gulp.task("static", () =>
+  gulp
+    .src(`${src}/static/*`)
+    .pipe(gulp.dest(dist))
+    .pipe(browserSync.stream())
+);
+
 // Default task
-gulp.task("default", ["css", "js", "vendor"]);
+gulp.task("default", ["css", "js", "img", "static", "vendor"]);
 
 // Configure the browserSync task
 gulp.task("browserSync", () => {
   browserSync.init({
     server: {
-      baseDir: "./"
+      baseDir: dist
     }
   });
 });
 
 // Dev task
 gulp.task("dev", ["css", "js", "browserSync"], () => {
-  gulp.watch("./scss/*.scss", ["css"]);
-  gulp.watch("./js/*.js", ["js"]);
-  gulp.watch("./*.html", browserSync.reload);
+  gulp.watch(`${src}/scss/**/*.scss`, ["css"]);
+  gulp.watch(`${src}/js/*.js`, ["js"]);
+  gulp.watch(`${src}/img/*`, ["img"]);
+  gulp.watch(`${src}/static/*`, ["static"]);
 });

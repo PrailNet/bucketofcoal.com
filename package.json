@@ -32,6 +32,7 @@
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-standard": "^4.0.0",
     "parcel-bundler": "^1.10.3",
+    "parcel-plugin-purgecss": "^2.1.0",
     "sass": "^1.15.2"
   }
 }

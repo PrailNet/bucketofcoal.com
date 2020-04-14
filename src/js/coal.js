@@ -53,11 +53,9 @@ navbarCollapse()
 // Collapse the navbar when page is scrolled
 $(window).scroll(navbarCollapse)
 
-const stripe = Stripe('pk_live_qqoVVEdeWc49isA4t568IDqL', {
-  betas: ['checkout_beta_4']
-})
+const stripe = Stripe('pk_live_qqoVVEdeWc49isA4t568IDqL')
 
-$('#orderForm').submit(event => {
+$('#orderForm').submit((event) => {
   event.preventDefault()
 
   const size = $('#size').val()
@@ -65,10 +63,13 @@ $('#orderForm').submit(event => {
   stripe
     .redirectToCheckout({
       items: [{ sku: size, quantity: 1 }],
-      successUrl: 'https://bucketofcoal.com/success',
-      cancelUrl: 'https://bucketofcoal.com/canceled'
+      successUrl: 'https://bucketofcoal.com',
+      cancelUrl: 'https://bucketofcoal.com',
+      shippingAddressCollection: {
+        allowedCountries: ['US']
+      }
     })
-    .then(result => {
+    .then((result) => {
       if (result.error) {
         const displayError = document.getElementById('error-message')
         displayError.textContent = result.error.message
